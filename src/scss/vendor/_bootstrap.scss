@@ -1,0 +1,62 @@
+@use "sass:map";
+@use "../abstracts/tokens" as t;
+
+// 1. Funciones (siempre primero)
+@import "bootstrap/scss/functions";
+
+// 2. Tus variables (antes de las de Bootstrap: usan !default)
+$primary: map.get(t.$brand, "primary");
+$secondary: map.get(t.$brand, "secondary");
+$success: map.get(t.$brand, "success");
+$warning: map.get(t.$brand, "warning");
+$danger: map.get(t.$brand, "danger");
+$info: map.get(t.$brand, "info");
+$grid-breakpoints: t.$breakpoints;
+$font-family-sans-serif: t.$font-sans;
+$border-radius: t.$radius-base;
+$enable-shadows: true;
+$enable-negative-margins: true;
+$body-bg-dark: #0f172a;
+
+// 3. Variables por defecto de Bootstrap
+@import "bootstrap/scss/variables";
+@import "bootstrap/scss/variables-dark";
+
+// 4. Tus mapas: agrega el color "accent" al tema
+$theme-colors: map.merge($theme-colors, ("accent": map.get(t.$brand, "accent")));
+
+// 5. Mapas, mixins y utilidades
+@import "bootstrap/scss/maps";
+@import "bootstrap/scss/mixins";
+@import "bootstrap/scss/utilities";
+
+// 6. Utilities API: una utilidad nueva y una modificada
+$utilities: map.merge($utilities, (
+  "cursor": (
+    property: cursor,
+    class: cursor,
+    responsive: true,
+    values: auto pointer not-allowed,
+  ),
+  "opacity": map.merge(map.get($utilities, "opacity"), (responsive: true)),
+));
+
+// 7. Solo los componentes que usa StockLab
+@import "bootstrap/scss/root";
+@import "bootstrap/scss/reboot";
+@import "bootstrap/scss/type";
+@import "bootstrap/scss/containers";
+@import "bootstrap/scss/grid";
+@import "bootstrap/scss/tables";
+@import "bootstrap/scss/forms";
+@import "bootstrap/scss/buttons";
+@import "bootstrap/scss/transitions";
+@import "bootstrap/scss/nav";
+@import "bootstrap/scss/card";
+@import "bootstrap/scss/close";
+@import "bootstrap/scss/toasts";
+@import "bootstrap/scss/modal";
+@import "bootstrap/scss/tooltip";
+@import "bootstrap/scss/offcanvas";
+@import "bootstrap/scss/helpers";
+@import "bootstrap/scss/utilities/api";
