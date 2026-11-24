@@ -1,0 +1,71 @@
+@use "../abstracts" as *;
+
+.app-shell {
+  min-height: 100vh;
+
+  @include respond-to(lg) {
+    display: grid;
+    grid-template-columns: $sidebar-width 1fr;
+  }
+
+  &__main {
+    min-width: 0;
+  }
+}
+
+.sidebar {
+  @include respond-to(lg) {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    padding: rem(16px);
+    background-color: var(--bs-tertiary-bg);
+    border-right: 1px solid var(--bs-border-color);
+  }
+
+  &__nav {
+    display: flex;
+    flex-direction: column;
+    gap: rem(4px);
+    width: 100%;
+  }
+
+  &__link {
+    padding: rem(10px) rem(14px);
+    color: var(--bs-body-color);
+    text-decoration: none;
+    border-radius: var(--bs-border-radius);
+
+    &:hover {
+      background-color: color-mix(in srgb, var(--bs-primary) 8%, transparent);
+    }
+
+    &:focus-visible {
+      @include focus-ring;
+    }
+
+    &[aria-current="page"] {
+      font-weight: 600;
+      color: var(--bs-primary-text-emphasis);
+      background-color: color-mix(in srgb, var(--bs-primary) 12%, transparent);
+    }
+  }
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: z(sticky);
+  display: flex;
+  align-items: center;
+  gap: rem(12px);
+  height: $topbar-height;
+  padding-inline: rem(16px);
+  background-color: color-mix(in srgb, var(--bs-body-bg) 85%, transparent);
+  border-bottom: 1px solid var(--bs-border-color);
+  backdrop-filter: blur(8px);
+
+  &__search {
+    max-width: rem(320px);
+  }
+}
