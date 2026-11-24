@@ -1,10 +1,17 @@
 <!doctype html>
-<html lang="es" data-bs-theme="light">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>StockLab</title>
+    <script>
+      (() => {
+        const saved = localStorage.getItem('stocklab-theme');
+        const dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.dataset.bsTheme = saved ?? (dark ? 'dark' : 'light');
+      })();
+    </script>
   </head>
   <body>
     <a class="visually-hidden-focusable" href="#contenido">Saltar al contenido</a>
@@ -39,10 +46,194 @@
         </header>
 
         <main id="contenido" class="container-fluid py-4">
-          <!-- Fase 4: KPIs y tabla -->
+          <h1 class="h3 mb-4">Panel de inventario</h1>
+
+          <section class="row g-3 mb-4" aria-label="Indicadores">
+            <div class="col-12 col-sm-6 col-xl-3">
+              <article class="kpi-card kpi-card--primary">
+                <p class="kpi-card__label mb-1">Productos registrados</p>
+                <p class="kpi-card__value mb-1">1,284</p>
+                <p class="kpi-card__trend kpi-card__trend--up mb-0">▲ 4.2 % vs. mes anterior</p>
+              </article>
+            </div>
+            <div class="col-12 col-sm-6 col-xl-3">
+              <article class="kpi-card kpi-card--success">
+                <p class="kpi-card__label mb-1">Valor del inventario</p>
+                <p class="kpi-card__value mb-1">$2.45 M</p>
+                <p class="kpi-card__trend kpi-card__trend--up mb-0">▲ 2.8 % vs. mes anterior</p>
+              </article>
+            </div>
+            <div class="col-12 col-sm-6 col-xl-3">
+              <article class="kpi-card kpi-card--warning">
+                <p class="kpi-card__label mb-1">Stock bajo</p>
+                <p class="kpi-card__value mb-1" id="kpiLow">37</p>
+                <p class="kpi-card__trend kpi-card__trend--down mb-0">▲ 9.5 % vs. mes anterior</p>
+              </article>
+            </div>
+            <div class="col-12 col-sm-6 col-xl-3">
+              <article class="kpi-card kpi-card--accent">
+                <p class="kpi-card__label mb-1">Pedidos pendientes</p>
+                <p class="kpi-card__value mb-1">23</p>
+                <p class="kpi-card__trend kpi-card__trend--up mb-0">▲ 3.4 % vs. mes anterior</p>
+              </article>
+            </div>
+          </section>
+
+          <section class="card">
+            <div class="card-header d-flex flex-wrap gap-2 justify-content-between align-items-center">
+              <h2 class="h6 mb-0">Productos</h2>
+              <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#productModal">
+                + Nuevo producto
+              </button>
+            </div>
+            <div class="table-responsive">
+              <table class="table table-hover align-middle mb-0 data-table" id="productTable">
+                <caption class="visually-hidden">Listado de productos del inventario</caption>
+                <thead>
+                  <tr>
+                    <th scope="col">SKU</th>
+                    <th scope="col">Producto</th>
+                    <th scope="col" class="d-none d-md-table-cell">Categoría</th>
+                    <th scope="col" class="text-end">Stock</th>
+                    <th scope="col">Estado</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>FER-0001</td>
+                    <td class="data-table__name">Taladro inalámbrico 20 V con 2 baterías</td>
+                    <td class="d-none d-md-table-cell">Herramienta eléctrica</td>
+                    <td class="text-end">42</td>
+                    <td><span class="status-badge status-badge--disponible">Disponible</span></td>
+                  </tr>
+                  <tr>
+                    <td>FER-0002</td>
+                    <td class="data-table__name">Martillo de carpintero 16 oz</td>
+                    <td class="d-none d-md-table-cell">Herramienta manual</td>
+                    <td class="text-end">8</td>
+                    <td><span class="status-badge status-badge--bajo">Bajo</span></td>
+                  </tr>
+                  <tr>
+                    <td>FER-0003</td>
+                    <td class="data-table__name">Sierra circular 7 1/4 pulg 1500 W</td>
+                    <td class="d-none d-md-table-cell">Herramienta eléctrica</td>
+                    <td class="text-end">0</td>
+                    <td><span class="status-badge status-badge--agotado">Agotado</span></td>
+                  </tr>
+                  <tr>
+                    <td>FER-0004</td>
+                    <td class="data-table__name">Tornillos para madera 5 cm (caja de 200)</td>
+                    <td class="d-none d-md-table-cell">Fijación</td>
+                    <td class="text-end">120</td>
+                    <td><span class="status-badge status-badge--disponible">Disponible</span></td>
+                  </tr>
+                  <tr>
+                    <td>FER-0005</td>
+                    <td class="data-table__name">Pintura vinílica blanca 19 L</td>
+                    <td class="d-none d-md-table-cell">Pintura</td>
+                    <td class="text-end">0</td>
+                    <td><span class="status-badge status-badge--pedido">Pedido</span></td>
+                  </tr>
+                  <tr>
+                    <td>FER-0006</td>
+                    <td class="data-table__name">Juego de desarmadores de precisión 12 pzas</td>
+                    <td class="d-none d-md-table-cell">Herramienta manual</td>
+                    <td class="text-end">5</td>
+                    <td><span class="status-badge status-badge--bajo">Bajo</span></td>
+                  </tr>
+                  <tr>
+                    <td>FER-0007</td>
+                    <td class="data-table__name">Anclas expansivas 3/8 pulg (50 pzas)</td>
+                    <td class="d-none d-md-table-cell">Fijación</td>
+                    <td class="text-end">64</td>
+                    <td><span class="status-badge status-badge--disponible">Disponible</span></td>
+                  </tr>
+                  <tr>
+                    <td>FER-0008</td>
+                    <td class="data-table__name">Esmeriladora angular 4 1/2 pulg</td>
+                    <td class="d-none d-md-table-cell">Herramienta eléctrica</td>
+                    <td class="text-end">0</td>
+                    <td><span class="status-badge status-badge--pedido">Pedido</span></td>
+                  </tr>
+                  <tr>
+                    <td>FER-0009</td>
+                    <td class="data-table__name">Brocha profesional 4 pulgadas</td>
+                    <td class="d-none d-md-table-cell">Pintura</td>
+                    <td class="text-end">15</td>
+                    <td><span class="status-badge status-badge--descontinuado">Descontinuado</span></td>
+                  </tr>
+                  <tr id="noResults" hidden>
+                    <td colspan="5" class="text-center text-body-secondary py-4">Sin resultados</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
         </main>
       </div>
     </div>
+
+    <div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <form class="modal-content" id="productForm" novalidate>
+          <div class="modal-header">
+            <h2 class="modal-title h5" id="productModalLabel">Nuevo producto</h2>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+          </div>
+          <div class="modal-body">
+            <div class="row g-3">
+              <div class="col-sm-5">
+                <label for="sku" class="form-label">SKU</label>
+                <input id="sku" name="sku" class="form-control" required pattern="[A-Z]{3}-[0-9]{4}"
+                  placeholder="FER-0001" aria-describedby="skuHelp">
+                <div id="skuHelp" class="invalid-feedback">3 letras mayúsculas, guion y 4 dígitos.</div>
+              </div>
+              <div class="col-sm-7">
+                <label for="nombre" class="form-label">Producto</label>
+                <input id="nombre" name="nombre" class="form-control" required minlength="3" maxlength="80">
+                <div class="invalid-feedback">Entre 3 y 80 caracteres.</div>
+              </div>
+              <div class="col-sm-7">
+                <label for="categoria" class="form-label">Categoría</label>
+                <select id="categoria" name="categoria" class="form-select" required>
+                  <option value="">Selecciona…</option>
+                  <option>Herramienta eléctrica</option>
+                  <option>Herramienta manual</option>
+                  <option>Fijación</option>
+                  <option>Pintura</option>
+                </select>
+                <div class="invalid-feedback">Elige una categoría.</div>
+              </div>
+              <div class="col-sm-5">
+                <label for="stock" class="form-label">Stock</label>
+                <input id="stock" name="stock" type="number" class="form-control" required min="0" step="1">
+                <div class="invalid-feedback">Número entero mayor o igual a 0.</div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-primary">Guardar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+      <div class="toast text-bg-success" id="saveToast" role="status" aria-live="polite" aria-atomic="true">
+        <div class="toast-body">Producto guardado correctamente.</div>
+      </div>
+    </div>
+
+    <template id="rowTemplate">
+      <tr>
+        <td data-field="sku"></td>
+        <td data-field="nombre" class="data-table__name"></td>
+        <td data-field="categoria" class="d-none d-md-table-cell"></td>
+        <td data-field="stock" class="text-end"></td>
+        <td><span class="status-badge"></span></td>
+      </tr>
+    </template>
 
     <script type="module" src="/src/main.js"></script>
   </body>
