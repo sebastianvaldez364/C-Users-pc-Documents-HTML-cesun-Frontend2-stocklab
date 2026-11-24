@@ -4,10 +4,11 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
-  },
+  "dev": "vite",
+  "build": "vite build",
+  "preview": "vite preview",
+  "lint:css": "stylelint \"src/scss/**/*.scss\""
+},
   "devDependencies": {
     "sass": "^1.108.2",
     "stylelint": "^18.1.0",
