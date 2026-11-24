@@ -2,7 +2,7 @@
 
 Panel administrativo de inventario hecho con Bootstrap 5.3 compilado desde SCSS, Vite y JavaScript vanilla.
 
-**URL pública:** https://TU-URL-AQUI
+**URL pública:** https://c-users-pc-documents-html-cesun-fro.vercel.app
 
 ## Comandos
 
