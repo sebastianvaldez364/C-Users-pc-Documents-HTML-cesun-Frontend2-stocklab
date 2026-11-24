@@ -1,0 +1,11 @@
+@use "../abstracts" as *;
+
+body {
+  -webkit-font-smoothing: antialiased;
+}
+
+[data-bs-theme="dark"] {
+  color-scheme: dark; // barras de scroll y controles nativos oscuros
+
+  .kpi-card { box-shadow: none; }
+}
