@@ -1,0 +1,26 @@
+@use "sass:math";
+@use "sass:map";
+@use "tokens" as t;
+
+/// Convierte px a rem (base 16px)
+@function rem($px, $base: 16px) {
+  @if math.unit($px) != "px" {
+    @error "rem() espera px y recibió `#{$px}`.";
+  }
+
+  @return math.div($px, $base) * 1rem;
+}
+
+/// Lee una clave de un mapa y falla con un mensaje claro si no existe
+@function token($map, $key) {
+  @if not map.has-key($map, $key) {
+    @error "El token `#{$key}` no existe. Opciones: #{map.keys($map)}";
+  }
+
+  @return map.get($map, $key);
+}
+
+/// Capa de z-index (Reto 1): falla si la capa no existe
+@function z($layer) {
+  @return token(t.$z-layers, $layer);
+}

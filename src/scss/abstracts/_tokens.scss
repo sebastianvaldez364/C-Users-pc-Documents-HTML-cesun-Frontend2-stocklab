@@ -1,0 +1,26 @@
+$brand: (
+  "primary": #4338ca,
+  "secondary": #64748b,
+  "success": #15803d,
+  "warning": #b45309,
+  "danger": #b91c1c,
+  "info": #0e7490,
+  "accent": #db2777,
+);
+$breakpoints: (xs: 0, sm: 576px, md: 768px, lg: 992px, xl: 1200px, xxl: 1400px);
+$font-sans: "Inter", system-ui, -apple-system, "Segoe UI", roboto, sans-serif;
+$radius-base: 0.625rem;
+$sidebar-width: 16rem;
+$topbar-height: 4rem;
+
+// Capas de z-index (Reto 1)
+$z-layers: (base: 1, sticky: 1020, overlay: 1050, toast: 1090);
+
+// Estado de inventario → color de tema de Bootstrap (descontinuado = Reto 4)
+$stock-states: (
+  "disponible": "success",
+  "bajo": "warning",
+  "agotado": "danger",
+  "pedido": "info",
+  "descontinuado": "secondary",
+);
